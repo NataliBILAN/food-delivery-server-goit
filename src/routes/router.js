@@ -1,10 +1,10 @@
 const mainRoute = require('./main/main');
 const signUpRoute = require('./users/signUpRoute');
-const productsRoute = require('./products/productsRoute');
+const getProducts = require('./products/getProducts');
 
 const router = {
   '/signup': signUpRoute,
-  '/products': productsRoute,
+  '/products': getProducts,
   default: mainRoute,
 };
 
