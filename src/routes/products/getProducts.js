@@ -20,6 +20,7 @@ debugger
 // };
 
 const getProducts = (req, res) => {
+	debugger;
 	if (req.method !== "GET") {
 		console.log("Sorry, you can get info only by GET");
 		return;
@@ -28,7 +29,7 @@ const getProducts = (req, res) => {
 	let result = [];
 
 	if (queryData.ids) {
-		console.log(key)
+		console.log(key);
 		const arrayOfIds = queryData.ids
 			.slice(1, queryData.ids.length - 1)
 			.split(",");
@@ -43,7 +44,7 @@ const getProducts = (req, res) => {
 	// 	allproducts = getProductByCategory(paramsArr);
 	// }
 
-	debugger
+	debugger;
 
 	const response = JSON.stringify({
 		status: "success",
