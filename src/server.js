@@ -22,7 +22,7 @@ const startServer = port => {
     const { query } = url.parse(request.url, true);
 
     // Get router function
-    const func = getRouteHandler(router, parsedUrl.pathname) || router.default;
+    const func = getRouteHandler(router, parsedUrl.pathname, request) || router.default;
 
     console.log(port, parsedUrl);
     logger(request, response, () => func(request, response));
