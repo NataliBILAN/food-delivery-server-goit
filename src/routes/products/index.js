@@ -10,7 +10,7 @@ const getProducts = (req, res) => {
 	const lastIndex = urlLine.lastIndexOf("/");
 	const oneId = Number(urlLine.slice(lastIndex + 1));
 
-	debugger
+	// debugger
 	if (query) {
 
 		getProductByQuery(req, res);

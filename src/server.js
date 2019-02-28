@@ -30,5 +30,5 @@ const startServer = port => {
 
   server.listen(port);
 };
-debugger
+// debugger
 module.exports = startServer;
