@@ -9,10 +9,11 @@ const getProducts = (req, res) => {
 	const urlLine = url.parse(req.url).path;
 	const lastIndex = urlLine.lastIndexOf("/");
 	const oneId = Number(urlLine.slice(lastIndex + 1));
+
 	debugger
 	if (query) {
 
-		getProductByQuery(res, req);
+		getProductByQuery(req, res);
 		return;
 	}
 	if (oneId) {
