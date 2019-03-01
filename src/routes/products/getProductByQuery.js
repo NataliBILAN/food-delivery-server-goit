@@ -1,7 +1,6 @@
-const url = require('url');
 const fs = require("fs");
 const path = require("path");
-const qs = require("querystring");
+
 
 const filePath = path.join(__dirname, '../../', 'db/products', 'all-products.json');
 const products = JSON.parse(
@@ -11,34 +10,13 @@ const products = JSON.parse(
 	})
 );
 const getProductByQuery = (req, res) => {
-	const queryData = qs.parse(url.parse(req.url).query);
 
-	if (queryData.category) {
-		const categoryFromQueryData = queryData.category
-			.slice(1, queryData.category.length - 1);
-		const result = products.filter(
-			item => item.categories[0] == categoryFromQueryData
-		);
+	const ids = req.query.ids;
+	//localhost:3001/products/?ids=19112836,19112835,19112835
+	if (ids) {
+		const arrIds = ids.split(',');
 
-		if (result.length > 0) {
-			res.writeHead(200, { "Content-Type": "application/json" });
-			res.write(JSON.stringify({ status: "success", result }));
-			res.end();
-			return;
-		} else {
-			res.writeHead(200, { "Content-Type": "application/json" });
-			res.write(JSON.stringify({ status: "no products", result }));
-			res.end();
-			return;
-		}
-	}
-
-	if (queryData.ids) {
-		const idsFromQueryData = queryData.ids
-			.slice(1, queryData.ids.length - 1)
-			.split(",");
-
-		const result = idsFromQueryData.reduce((acc, id) => {
+		const result = arrIds.reduce((acc, id) => {
 			products.map(item => (item.id === Number(id) ? acc.push(item) : item));
 			return acc;
 		}, []);
@@ -50,7 +28,7 @@ const getProductByQuery = (req, res) => {
 			return;
 		} else {
 			res.writeHead(200, { "Content-Type": "application/json" });
-			res.write(JSON.stringify({ status: "no products", products }));
+			res.write(JSON.stringify({ status: "no products", result }));
 			res.end();
 			return;
 		}

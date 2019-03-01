@@ -1,34 +1,42 @@
-const https = require('https');
-// const http = require('http');
-const fs = require("fs");
-const path = require("path");
-const url = require('url');
+const express = require('express');
+const path = require('path');
+const bodyParser = require('body-parser');
+const app = require('./modules/app');
 const morgan = require('morgan');
-const logger = morgan('combined');
-
 const router = require('./routes/router');
-const getRouteHandler = require('./helpers/getRouteHandler');
 
-const options = {
-  key: fs.readFileSync(path.join(__dirname, 'ssl', './server.key')),
-  cert: fs.readFileSync(path.join(__dirname, 'ssl', './server.crt'))
+const errorHandler = (req, res, next) => {
+  res.status(500).send('No such page');
+  next();
 };
+
+const checkAuth = (req, res, next) => {
+  // check if user is logged it
+  const userLoggedIn = checkUserAuth(req.headers);
+
+  if (!userLoggedIn) {
+    res.status(403).send('access forbidden');
+    return;
+  }
+
+  next();
+};
+
+const staticPath = path.join(__dirname, '..', 'assets');
 
 const startServer = port => {
-  const server = https.createServer(options, (request, response) => {
+  app
+    .use(bodyParser.urlencoded({ extended: false }))
+    .use(bodyParser.json())
+    .use(morgan('dev'))
+    // .use(checkAuth)
+    .use(express.static(staticPath))
+    .use('/', router)
+    .use(errorHandler);
 
-    // Get route from the request
-    const parsedUrl = url.parse(request.url);
-    const { query } = url.parse(request.url, true);
+  app.listen(port);
 
-    // Get router function
-    const func = getRouteHandler(router, parsedUrl.pathname, query) || router.default;
-
-    // console.log(port, parsedUrl);
-    logger(request, response, () => func(request, response));
-  });
-
-  server.listen(port);
+  console.log('Server was started at http://localhost:' + port);
 };
-// debugger
+
 module.exports = startServer;

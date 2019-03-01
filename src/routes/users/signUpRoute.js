@@ -1,33 +1,38 @@
-const fs = require("fs");
-const path = require("path");
+const fs = require('fs');
+const path = require('path');
+const util = require('util');
 
-const saveUser = user => {
-  const userName = user.username;
-  const filePath = path.join(__dirname, "../../", "db/users", `${userName}.json`);
-  fs.writeFile(filePath, JSON.stringify(user), function (err) {
-    if (err) throw err;
-  });
+const writeFile = util.promisify(fs.writeFile);
+
+const saveNewUser = data => {
+  debugger
+  const src = path.resolve(__dirname, "../../", "db/users", "all-users.json");
+  const dataStr = JSON.stringify(data);
+
+  return writeFile(src, dataStr);
 };
-
+debugger
 const signUpRoute = (request, response) => {
-  if (request.method === 'POST') {
-    let body = '';
-
-    request.on('data', function (data) {
-      body += data;
-      console.log('Incoming data!!!!');
+  const user = request.body;
+  const userData = { ...user, id: Math.random() };
+  const sendResponse = () => {
+    response.json({
+      status: 'success',
+      user: userData
     });
+  };
 
-    request.on('end', function () {
-      const user = JSON.parse(body);
-      saveUser(user);
+  const sendError = () => {
+    response.status(400);
+    response.json({
+      error: 'user was not saved'
+    });
+  };
 
-      const result = { status: "success", user: user };
-      response.writeHead(200, { "Content-Type": "application/json" });
-      response.write(JSON.stringify(result));
-      response.end();
-    })
-  }
+  saveNewUser(userData)
+    .then(sendResponse)
+    .catch(sendError);
+
 };
 
 module.exports = signUpRoute;

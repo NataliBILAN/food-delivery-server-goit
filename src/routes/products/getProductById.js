@@ -1,4 +1,3 @@
-const url = require('url');
 const fs = require("fs");
 const path = require("path");
 
@@ -9,18 +8,9 @@ const products = JSON.parse(
 		console.log(data);
 	})
 );
-
-const getId = url => {
-	const lastIndex = url.lastIndexOf("/");
-
-	if (lastIndex !== -1) {
-		return url.slice(lastIndex + 1);
-	}
-};
-
+debugger
 const getProductById = (req, res) => {
-	const parsedUrl = url.parse(req.url);
-	const id = getId(parsedUrl.path);
+	const id = req.params.id
 
 	const result = products.filter(user => user.id === Number(id));
 
