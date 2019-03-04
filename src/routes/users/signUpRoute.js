@@ -1,20 +1,25 @@
 const fs = require('fs');
 const path = require('path');
 const util = require('util');
+debugger
 
 const writeFile = util.promisify(fs.writeFile);
 
-const saveNewUser = data => {
-  debugger
-  const src = path.resolve(__dirname, "../../", "db/users", "all-users.json");
-  const dataStr = JSON.stringify(data);
+const src = path.resolve(__dirname, "../../../", "db/users");
 
-  return writeFile(src, dataStr);
+
+const saveNewUser = users => {
+  const dataStr = JSON.stringify(users);
+  return writeFile(src + "/all-users.json", dataStr);
 };
-debugger
+
 const signUpRoute = (request, response) => {
   const user = request.body;
+  console.log(user)
   const userData = { ...user, id: Math.random() };
+  const data = fs.readFileSync(src + "/all-users.json");
+  const users = [...JSON.parse(data), userData];
+
   const sendResponse = () => {
     response.json({
       status: 'success',
@@ -29,7 +34,7 @@ const signUpRoute = (request, response) => {
     });
   };
 
-  saveNewUser(userData)
+  saveNewUser(users)
     .then(sendResponse)
     .catch(sendError);
 

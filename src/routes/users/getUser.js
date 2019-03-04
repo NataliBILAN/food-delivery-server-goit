@@ -1,18 +1,18 @@
 const fs = require("fs");
 const path = require("path");
 
-const filePath = path.join(__dirname, '../../../', 'db/products', 'all-products.json');
-const products = JSON.parse(
+const filePath = path.join(__dirname, '../../../', 'db/users', 'all-users.json');
+const users = JSON.parse(
 	fs.readFileSync(filePath, (err, data) => {
 		if (err) throw err;
 		console.log(data);
 	})
 );
 debugger
-const getProductById = (req, res) => {
-	const id = req.params.id
+const getUser = (req, res) => {
+	const id = req.params.userId
 
-	const result = products.filter(item => item.id === Number(id));
+	const result = users.filter(user => user.id === Number(id));
 
 	if (result.length > 0) {
 		res.writeHead(200, { "Content-Type": "application/json" });
@@ -22,8 +22,8 @@ const getProductById = (req, res) => {
 	}
 
 	res.writeHead(200, { "Content-Type": "application/json" });
-	res.write(JSON.stringify({ status: "no products", result }));
+	res.write(JSON.stringify({ status: "not found" }));
 	res.end();
 };
 
-module.exports = getProductById;
+module.exports = getUser;

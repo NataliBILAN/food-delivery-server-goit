@@ -1,0 +1,23 @@
+[
+	{
+		"username": "Ivan",
+		"telephone": "063 777 77 77",
+		"password": "12345",
+		"email": "ivan@gmail.com",
+		"id": 0.6105340850127519
+	},
+	{
+		"username": "vera",
+		"telephone": "063 777 77 77",
+		"password": "12345",
+		"email": "ivan@gmail.com",
+		"id": 0.38985276676788794
+	},
+	{
+		"username": "LoL",
+		"telephone": "063 777 77 77",
+		"password": "12345",
+		"email": "ivan@gmail.com",
+		"id": 0.930496633592939
+	}
+]

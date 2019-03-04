@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 
-const filePath = path.join(__dirname, '../../', 'db/products', 'all-products.json');
+const filePath = path.join(__dirname, '../../../', 'db/products', 'all-products.json');
 const products = JSON.parse(
 	fs.readFileSync(filePath, (err, data) => {
 		if (err) throw err;

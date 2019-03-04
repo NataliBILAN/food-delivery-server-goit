@@ -3,9 +3,10 @@ const mainRoute = require('./main/main');
 const getProductById = require('./products/getProductById');
 const getProductByQuery = require('./products/getProductByQuery');
 // const getImageRoute = require('./image/get-image');
-// const getUser = require('./user/get-user');
+const getUser = require('./users/getUser');
 // const getSaveImageHandlers = require('./image/save-image-multipart');
 const signUpRoute = require('./users/signUpRoute');
+const createOrder = require('./orders/createOrder');
 
 const apiRoutes = express.Router();
 
@@ -26,9 +27,10 @@ apiRoutes
   .get('/products/:id', getProductById)
   .get('/products', getProductByQuery)
   // .get('/image', getImageRoute)
-  // .get('/users/:userId', getUser)
+  .get('/users/:userId', getUser)
 
   .post('/users', signUpRoute)
+  .post('/orders', createOrder)
 // .post('/image', getSaveImageHandlers());
 
 
