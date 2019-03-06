@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const util = require('util');
+const shortid = require('shortid');
 // debugger
 
 const writeFile = util.promisify(fs.writeFile);
@@ -14,7 +15,7 @@ const saveNewUser = (users) => {
 const signUpRoute = (request, response) => {
 	const user = request.body;
 	console.log(user);
-	const userData = { ...user, id: Math.random() };
+	const userData = { ...user, id: shortid.generate() };
 	const data = fs.readFileSync(src + '/all-users.json');
 	const users = [ ...JSON.parse(data), userData ];
 

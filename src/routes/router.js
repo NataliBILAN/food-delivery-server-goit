@@ -9,13 +9,13 @@ const createOrder = require('./orders/createOrder');
 const apiRoutes = express.Router();
 
 const checkUserName = (req, resp, next) => {
-	if (req.body.userName) {
+	if (req.body.username) {
 		next();
 		return;
 	}
 	resp.status(400);
 	resp.json({
-		error: 'user has no "userName" field'
+		error: 'user has no "username" field'
 	});
 };
 

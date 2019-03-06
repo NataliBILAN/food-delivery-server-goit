@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const util = require('util');
-
+const shortid = require('shortid');
 // debugger;
 
 const writeFile = util.promisify(fs.writeFile);
@@ -32,7 +32,7 @@ const sendError = (response) => {
 const createOrder = (request, response) => {
 	const order = request.body;
 
-	const orderData = { ...order, id: Math.random() };
+	const orderData = { ...order, id: shortid.generate() };
 	console.log(orderData.products);
 	const orderName = orderData.id;
 	const fullSrc = path.resolve(srcOrders, orderName + '.json');
